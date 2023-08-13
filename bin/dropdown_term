@@ -1,0 +1,3 @@
+pkill -f "foot -a dropdown"
+
+foot -a dropdown -w 900x700 &

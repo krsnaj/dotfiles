@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Get the name of the paper
+paper=$1
+# Split the string into words
+words=$(echo "$string" | tr " " " ")
+
+# Add a plus sign between every word
+output=""
+for word in $words; do
+  output="$output$word+";
+done
+
+# Search the paper on crossref
+url="https://api.crossref.org/works?query=title:$output&rows=1"
+response=$(curl -s "$url")
+
+# Get the DOI out of the JSON response
+doi=$(echo "$response" | jq -r '.' | grep DOI | awk {'print $2'} | tr -d "\",")
+
+# Get the BibTex citations, through Luke Smiths getbib tool
+for a in $doi; do
+	getbib $doi;
+done
